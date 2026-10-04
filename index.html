@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Anglesey Prep Kit</title>
+<meta name="description" content="A free app and plain guides for getting a household ready for three days without power, water or shops. Built and tested at home on Anglesey.">
+<meta name="theme-color" content="#0F2A33">
+<link rel="icon" href="favicon.png">
+<link rel="apple-touch-icon" href="app/apple-touch-icon.png">
+<style>
+@font-face{font-family:'Barlow';font-weight:400;font-display:swap;src:url(assets/fonts/barlow-latin-400-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:500;font-display:swap;src:url(assets/fonts/barlow-latin-500-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow';font-weight:600;font-display:swap;src:url(assets/fonts/barlow-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:600;font-display:swap;src:url(assets/fonts/barlow-condensed-latin-600-normal.woff2) format('woff2')}
+@font-face{font-family:'Barlow Condensed';font-weight:700;font-display:swap;src:url(assets/fonts/barlow-condensed-latin-700-normal.woff2) format('woff2')}
+
+/* Layout: left-aligned throughout. A night-water hero holds the one bold thing, a lamp-lit panel that answers
+   "what do I do now?"; everything after it is calm, ruled and roomy. */
+:root{
+  --fog:#EEF3F1; --chalk:#FBFCFA; --water:#0F2A33; --kelp:#0B6B75; --lamp:#F2A33A; --signal:#B43C0A;
+  --bg:var(--fog); --surface:var(--chalk); --ink:var(--water); --muted:#4E646B; --line:#CBD8D5; --link:var(--kelp);
+  --night:#0F2A33; --night-ink:#EAF2F0; --night-muted:#A8BEC1; --night-line:#28464F;
+  --display:'Barlow Condensed','Arial Narrow','Roboto Condensed',sans-serif;
+  --body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0C1D23; --surface:#132A32; --ink:#E6EEEC; --muted:#9BB0B4; --line:#27414A; --link:#62C6CE; --signal:#FF8A4C;
+    --night:#07151A; --night-line:#1E3740; color-scheme:dark}
+}
+*{box-sizing:border-box}
+html{scroll-padding-top:5rem}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.55;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%;display:block}
+[hidden]{display:none!important}
+a{color:var(--link);text-underline-offset:3px}
+h1,h2,h3,p,ul,ol{margin:0}
+ul,ol{padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--lamp);outline-offset:3px}
+.wrap{max-width:70rem;margin-inline:auto;padding-inline:20px}
+
+/* Header */
+.top{background:var(--night);color:var(--night-ink);position:sticky;top:0;z-index:10;padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid var(--night-line)}
+.top-in{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:700;font-size:1.45rem;letter-spacing:.01em;color:var(--night-ink);text-decoration:none;margin-right:auto}
+.brand img{width:30px;height:30px;border-radius:7px}
+.nav{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;max-width:100%}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;color:var(--night-muted);text-decoration:none;font-weight:500;padding:9px 12px;border-bottom:2px solid transparent}
+.nav a:hover{color:var(--night-ink)}
+.nav a[aria-current="page"]{color:var(--night-ink);border-bottom-color:var(--lamp)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 22px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid transparent;cursor:pointer;font:inherit;font-weight:600}
+.btn-lamp{background:var(--lamp);color:#0F2A33}
+.btn-lamp:hover{background:#F7B555}
+.btn-quiet{border-color:var(--night-line);color:var(--night-ink);background:transparent}
+.btn-quiet:hover{border-color:var(--night-muted)}
+.btn-line{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-line:hover{background:var(--surface)}
+.top .btn{min-height:40px;padding:6px 18px}
+
+/* Hero */
+.hero{background:var(--night);color:var(--night-ink)}
+.hero-in{display:grid;grid-template-columns:minmax(0,1fr);gap:36px;padding-block:44px 56px}
+@media (min-width:56rem){.hero-in{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;align-items:center;padding-block:72px 84px}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.7rem,8.4vw,4.9rem);line-height:.96;letter-spacing:-.005em;text-wrap:balance}
+.hero p.lede{color:var(--night-muted);font-size:1.2rem;max-width:32rem;margin-top:18px}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.ask{margin-top:34px}
+.ask-label{color:var(--night-muted);font-size:.98rem;margin-bottom:10px}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.pick{font:inherit;font-weight:500;color:var(--night-ink);background:transparent;border:1.5px solid var(--night-line);border-radius:999px;padding:8px 16px;min-height:44px;cursor:pointer}
+.pick:hover{border-color:var(--night-muted)}
+.pick[aria-pressed="true"]{background:var(--lamp);border-color:var(--lamp);color:#0F2A33;font-weight:600}
+.lamp{position:relative;border:1px solid rgba(242,163,58,.38);border-radius:18px;padding:26px 24px 24px;overflow:hidden;
+  background:radial-gradient(120% 90% at 0% 0%,rgba(242,163,58,.26),rgba(242,163,58,.07) 45%,rgba(242,163,58,0) 72%),#112F39}
+.lamp.kindle{animation:kindle .5s ease-out}
+@keyframes kindle{from{filter:brightness(.72)}to{filter:brightness(1)}}
+.lamp h2{font-family:var(--display);font-weight:700;font-size:2rem;line-height:1.05;color:#FFE2B0}
+.lamp ol{counter-reset:s;display:flex;flex-direction:column;gap:14px;margin-top:18px}
+.lamp ol li{counter-increment:s;display:grid;grid-template-columns:2rem minmax(0,1fr);gap:4px}
+.lamp ol li::before{content:counter(s);font-family:var(--display);font-weight:700;font-size:1.5rem;line-height:1.15;color:var(--lamp)}
+.lamp .from{margin-top:20px;padding-top:16px;border-top:1px solid rgba(242,163,58,.25);color:var(--night-muted);font-size:.98rem}
+.lamp .from a{color:#FFE2B0}
+
+/* Sections */
+.page{padding-block:52px 72px;display:flex;flex-direction:column;gap:44px}
+.page > header{display:flex;flex-direction:column;gap:12px;max-width:44rem}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(2rem,5vw,2.8rem);line-height:1.02;text-wrap:balance}
+h3{font-family:var(--display);font-weight:600;font-size:1.5rem;line-height:1.12}
+.lead{font-size:1.15rem;color:var(--muted);max-width:40rem}
+.muted{color:var(--muted)}
+.small{font-size:.95rem}
+
+.doors{border-top:2px solid var(--ink)}
+.door{display:grid;grid-template-columns:minmax(0,1fr);gap:8px 28px;padding-block:22px;border-bottom:1px solid var(--line);align-items:center}
+@media (min-width:46rem){.door{grid-template-columns:13rem minmax(0,1fr) auto}}
+.door p{max-width:36rem}
+.door .btn{justify-self:start}
+
+.show{display:grid;grid-template-columns:minmax(0,1fr);gap:36px;align-items:center}
+@media (min-width:56rem){.show{grid-template-columns:auto minmax(0,1fr);gap:64px}}
+.phones{display:flex;gap:18px;justify-content:flex-start;align-items:flex-start}
+.phone{width:min(44vw,220px);border-radius:26px;border:7px solid var(--water);background:var(--water);overflow:hidden;box-shadow:0 22px 40px -22px rgba(15,42,51,.55)}
+.phone + .phone{margin-top:44px}
+.phone img{width:100%;height:auto}
+.feat{display:flex;flex-direction:column}
+.feat li{padding-block:14px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr);gap:2px 20px}
+@media (min-width:34rem){.feat li{grid-template-columns:8.5rem minmax(0,1fr)}}
+.feat li:first-child{border-top:2px solid var(--ink)}
+.feat strong{font-weight:600}
+
+/* Guides */
+.guides{display:flex;flex-direction:column;border-top:2px solid var(--ink)}
+.guide{border-bottom:1px solid var(--line)}
+.guide summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-block:18px}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary h3{font-size:1.6rem}
+.guide summary .sign{font-family:var(--display);font-size:1.6rem;color:var(--link);line-height:1}
+.guide[open] summary .sign{transform:rotate(45deg)}
+.guide-body{padding-bottom:24px;display:flex;flex-direction:column;gap:14px;max-width:42rem}
+.guide-body ol{list-style:decimal;padding-left:1.4em;display:flex;flex-direction:column;gap:8px}
+.guide-body ul{list-style:disc;padding-left:1.3em;display:flex;flex-direction:column;gap:8px}
+.callout{border-left:4px solid var(--lamp);background:var(--surface);padding:12px 16px;border-radius:0 10px 10px 0}
+.sources{display:flex;flex-wrap:wrap;gap:6px 20px}
+
+/* Catalogue */
+.tools{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+@media (min-width:46rem){.tools{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;align-items:end}}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field label,.field .lab{font-size:.92rem;color:var(--muted);font-weight:500}
+input[type=search],select{font:inherit;color:inherit;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;min-height:46px;width:100%}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-weight:500;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.cat-sec{display:flex;flex-direction:column}
+.cat-sec > h3{padding-bottom:8px;border-bottom:2px solid var(--ink);display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.cat-sec > h3 span{font-family:var(--body);font-size:.95rem;font-weight:500;color:var(--muted)}
+.item{padding-block:18px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr);gap:8px 32px}
+@media (min-width:52rem){.item{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}}
+.item.item-plain{grid-template-columns:minmax(0,1fr)}
+.item-name{font-weight:600;font-size:1.12rem;line-height:1.3}
+.item-name .qty{font-weight:500;color:var(--link);margin-left:8px;white-space:nowrap}
+.chip{display:inline-block;font-size:.85rem;font-weight:600;padding:2px 9px;border-radius:6px;margin-right:8px;vertical-align:2px}
+.chip-1{background:var(--signal);color:#fff}
+@media (prefers-color-scheme: dark){.chip-1{color:#0C1D23}}
+.chip-2{background:transparent;color:var(--link);box-shadow:inset 0 0 0 1.5px var(--link)}
+.chip-3{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1.5px var(--line)}
+.item p{max-width:36rem}
+.item-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:6px}
+.review{display:flex;flex-direction:column;gap:6px}
+.facts{display:flex;flex-wrap:wrap;gap:4px 18px;font-weight:500}
+.empty{padding:22px;border:1.5px dashed var(--line);border-radius:14px;color:var(--muted);max-width:44rem}
+
+/* Videos */
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,19rem),1fr));gap:26px}
+.video .frame{aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:var(--night)}
+.video iframe{width:100%;height:100%;border:0;display:block}
+.video h3{font-size:1.25rem;margin-top:10px}
+
+/* About */
+.prose{display:flex;flex-direction:column;gap:14px;max-width:42rem}
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:36px}
+@media (min-width:52rem){.cols{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px}}
+.contact{font-size:1.25rem;font-weight:600;user-select:all;overflow-wrap:anywhere}
+
+footer{border-top:1px solid var(--line);padding-block:26px 34px;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;flex-direction:column;gap:8px;max-width:70rem}
+@media (prefers-reduced-motion: reduce){.lamp.kindle{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#home"><img src="favicon.png" alt="">Anglesey Prep Kit</a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#home" data-tab="home">Home</a>
+      <a href="#prep" data-tab="prep">Prep</a>
+      <a href="#catalogue" data-tab="catalogue">Catalogue</a>
+      <a href="#videos" data-tab="videos">Videos</a>
+      <a href="#about" data-tab="about">About</a>
+    </nav>
+    <a class="btn btn-lamp" href="app/">Open the app</a>
+  </div>
+</div>
+
+<main>
+
+<!-- HOME -->
+<section id="home" data-page>
+  <div class="hero">
+    <div class="wrap hero-in">
+      <div>
+        <h1>Be ready for three days without power, water or shops.</h1>
+        <p class="lede">A free app and plain guides for getting a household ready. Built and tested at home on Anglesey.</p>
+        <div class="hero-cta">
+          <a class="btn btn-lamp" href="app/">Open the free app</a>
+          <a class="btn btn-quiet" href="#catalogue">See the kit</a>
+        </div>
+        <div class="ask">
+          <p class="ask-label" id="ask-label">Pick what has happened</p>
+          <div class="picks" role="group" aria-labelledby="ask-label" id="picks"></div>
+        </div>
+      </div>
+      <div class="lamp" id="lamp" aria-live="polite">
+        <h2 id="lamp-title">The power is off</h2>
+        <ol id="lamp-steps">
+          <li>Check your fuse box. If a switch has tripped, the fault is in your house and it is not a power cut.</li>
+          <li>Ring 105. It is free, and tells you what is wrong and how long it may last.</li>
+          <li>Switch off the cooker, heaters and irons so they do not come back on unattended. Leave one light on.</li>
+        </ol>
+        <p class="from" id="lamp-from">From the kit: head torches, a wind-up radio and charged power banks. <a href="#catalogue">See them in the catalogue</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap page">
+    <div class="doors">
+      <div class="door">
+        <h3>The app</h3>
+        <p>A checklist, a picture guide to your own shut-offs, and a record of what you own. Free, with no account. Everything you enter stays on your phone.</p>
+        <a class="btn btn-line" href="app/">Open the app</a>
+      </div>
+      <div class="door">
+        <h3>The catalogue</h3>
+        <p>Every item in the kit, why it is there and where to find it. A price paid and an honest verdict are added as each one is bought and used.</p>
+        <a class="btn btn-line" href="#catalogue">Browse the kit</a>
+      </div>
+      <div class="door">
+        <h3>The guides</h3>
+        <p>What to do in a power cut, when the taps run dry, before a storm and in a cold snap. Short enough to read by torchlight.</p>
+        <a class="btn btn-line" href="#prep">Read the guides</a>
+      </div>
+      <div class="door">
+        <h3>The videos</h3>
+        <p>Short films of the kit in use, so you can see how something works before you need it.</p>
+        <a class="btn btn-line" href="#videos">Go to videos</a>
+      </div>
+    </div>
+
+    <div class="show">
+      <div class="phones">
+        <div class="phone"><img src="assets/app-kit.jpg" width="585" height="1200" alt="The app's kit list, with four items ticked off and quantities worked out for four people"></div>
+        <div class="phone"><img src="assets/app-house.jpg" width="585" height="1200" alt="The app's house page, showing notes on the water stopcock and steps for turning the water off"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:20px;min-width:0">
+        <h2>What the app does</h2>
+        <ul class="feat">
+          <li><strong>Kit list</strong><span>54 items in seven groups, marked essential, useful or optional. Set how many people live with you and it works out the water, food and torches.</span></li>
+          <li><strong>House</strong><span>Photos and notes for your stopcock, fuse box, fuel shut-off, boiler and heating timer, with steps for each one.</span></li>
+          <li><strong>Inventory</strong><span>Photos, makes, serial numbers and values of what you own, with a running total for the insurer.</span></li>
+          <li><strong>Upkeep</strong><span>Boiler service, alarm tests, gutters. Log the date and it tells you when the next one is due.</span></li>
+          <li><strong>Backup</strong><span>One file holds everything, photos included, to move to a new phone or keep safe.</span></li>
+        </ul>
+        <div><a class="btn btn-lamp" href="app/">Open the app</a></div>
+        <p class="muted small">To keep it on your phone: open it, then choose Add to Home Screen from your browser's share or menu button.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PREP -->
+<section id="prep" data-page>
+  <div class="wrap page">
+    <header>
+      <h2>Prep guides</h2>
+      <p class="lead">Each guide is the short version: what to do first, what to have in the house, and where the official advice is.</p>
+    </header>
+    <div class="guides">
+
+      <details class="guide" open>
+        <summary><h3>The three-day basics</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <p>Most disruptions in the UK are over within three days. If your household can manage that long without mains power, tap water or a shop, you are ready for nearly all of them.</p>
+          <ul>
+            <li>Water: 3 litres per person per day for drinking, so 9 litres each. More if you want to cook and wash.</li>
+            <li>Food: three days of things you would eat anyway, some of which need no cooking, and a tin opener that works by hand.</li>
+            <li>Light: a head torch each and spare batteries. Torches are safer than candles.</li>
+            <li>News: a wind-up or battery radio. Mobile masts can lose power too.</li>
+            <li>Power: two charged power banks, and a charger for the car.</li>
+            <li>Health: a first aid kit, everyday medicines and a week of any prescriptions.</li>
+            <li>Paper: emergency numbers written down, some cash, and copies of key documents.</li>
+          </ul>
+          <p>The <a href="#catalogue">catalogue</a> lists every item, and the <a href="app/">app</a> works out the quantities for your household.</p>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary><h3>A power cut</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <ol>
+            <li>Check your fuse box first. If one switch is down and the neighbours have lights, the fault is in your house.</li>
+            <li>Ring 105. It is free from any phone and puts you through to the company that runs your local power lines.</li>
+            <li>Switch off the cooker, heaters, irons and anything else that should not come back on unattended. Leave one light on so you know when power returns.</li>
+            <li>Keep the fridge and freezer shut. A closed fridge stays cold for about four hours, a full freezer for about two days.</li>
+            <li>Use torches, not candles. Check on neighbours who are older or unwell.</li>
+          </ol>
+          <p class="callout">If someone in the house relies on powered medical equipment, is elderly or has very young children, join the Priority Services Register. It is free and your network operator will contact you first in a power cut.</p>
+          <p>If you have solar panels: an ordinary inverter switches off in a power cut, so the panels will not run the house unless the system was built for backup. Never plug a generator into the house wiring without a transfer switch fitted by an electrician.</p>
+          <div class="sources"><a href="https://www.powercut105.com/" target="_blank" rel="noopener">Power Cut 105</a><a href="https://prepare.campaign.gov.uk/" target="_blank" rel="noopener">GOV.UK Prepare</a></div>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary><h3>No water from the taps</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <ol>
+            <li>Check your own stopcock is open, then ask a neighbour whether theirs is off too.</li>
+            <li>Look at your water company's website or ring them. In a long outage they set up bottled water points and will tell you where.</li>
+            <li>Drink your stored water first: 3 litres each per day.</li>
+            <li>Flush the toilet with rainwater or washing-up water poured from a bucket.</li>
+          </ol>
+          <h3>Making water safe to drink</h3>
+          <ul>
+            <li>Boiling is the surest method. Bring the water to a rolling boil, then let it cool.</li>
+            <li>Chlorine dioxide tablets deal with bacteria and viruses and need no fuel.</li>
+            <li>Filter straws and squeeze filters remove bacteria and parasites from fresh water. They do not remove viruses or salt.</li>
+            <li>Seawater is never safe to drink. Distilling it works: boil it in a lidded pot with the lid upside down and collect the drips. It is slow and uses a lot of fuel, so treat it as a last resort.</li>
+          </ul>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary><h3>A storm or flood warning</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <ol>
+            <li>Charge phones, power banks and torches now, and fill the flasks with hot water.</li>
+            <li>Bring in or tie down anything loose outside. Park away from trees and walls.</li>
+            <li>Check the flood warnings for your address and sign up for alerts.</li>
+            <li>Move valuables, documents and medicines upstairs or onto high shelves.</li>
+            <li>Put the grab bag by the door, and make sure everyone knows where you would meet.</li>
+            <li>If water is about to come in, turn off the gas, electricity and water at the mains if you can reach them safely.</li>
+          </ol>
+          <p class="callout">Do not walk or drive through flood water. Ring 999 if anyone is in danger.</p>
+          <div class="sources"><a href="https://www.gov.uk/check-long-term-flood-risk" target="_blank" rel="noopener">Check flood risk, England</a><a href="https://check-your-flood-risk.naturalresources.wales/" target="_blank" rel="noopener">Check flood risk, Wales</a><span>Floodline 0345 988 1188</span></div>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary><h3>The heating fails in a cold snap</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <ol>
+            <li>Check the boiler has power and the pressure gauge reads between 1 and 1.5 bar. Press reset once.</li>
+            <li>If it locks out again, note the fault code and call a Gas Safe engineer, or an OFTEC engineer for oil.</li>
+            <li>Move everyone into one room, shut the doors and close the curtains.</li>
+            <li>Wear layers and a hat indoors. Fill hot water bottles and get the sleeping bags out.</li>
+          </ol>
+          <p class="callout">Never bring a barbecue, camping stove or generator indoors for heat. They give off carbon monoxide, which you cannot see or smell.</p>
+        </div>
+      </details>
+
+      <details class="guide">
+        <summary><h3>Know your shut-offs</h3><span class="sign" aria-hidden="true">+</span></summary>
+        <div class="guide-body">
+          <p>Find these three on a quiet afternoon, not in the dark with water coming through the ceiling. The <a href="app/">app</a> lets you photograph each one and keep the steps beside it.</p>
+          <ul>
+            <li>Water: the stopcock is a brass tap where the pipe enters the house, often under the kitchen sink. Clockwise is off.</li>
+            <li>Electricity: the main switch on the fuse box is the largest one, usually red. Down is off. Do not touch it if it is wet.</li>
+            <li>Gas: the valve is on the pipe beside the meter. Lever in line with the pipe is on; across the pipe is off.</li>
+          </ul>
+          <p class="callout">If you smell gas: no switches, no flames, no phones indoors. Open doors and windows, get everyone out, and ring 0800 111 999 from outside.</p>
+        </div>
+      </details>
+
+    </div>
+    <p class="muted small" style="max-width:42rem">These guides are general information for households in Great Britain. They are not a substitute for a qualified engineer, your insurer or the emergency services.</p>
+  </div>
+</section>
+
+<!-- CATALOGUE -->
+<section id="catalogue" data-page>
+  <div class="wrap page">
+    <header>
+      <h2>The kit catalogue</h2>
+      <p class="lead" id="cat-lead">Every item in the kit and why it is there.</p>
+    </header>
+    <div class="tools">
+      <div class="field"><label for="cat-q">Search the kit</label><input type="search" id="cat-q" placeholder="e.g. torch, water, alarm" autocomplete="off"></div>
+      <div class="field"><label for="cat-sec">Group</label><select id="cat-sec"><option value="">All groups</option></select></div>
+      <div class="field"><span class="lab" id="cat-pri-lab">Priority</span>
+        <div class="seg" role="group" aria-labelledby="cat-pri-lab" id="cat-pri">
+          <button type="button" data-pri="0" aria-pressed="true">All</button>
+          <button type="button" data-pri="1" aria-pressed="false">Essential</button>
+          <button type="button" data-pri="2" aria-pressed="false">Useful</button>
+          <button type="button" data-pri="3" aria-pressed="false">Optional</button>
+        </div>
+      </div>
+    </div>
+    <div id="cat-list" style="display:flex;flex-direction:column;gap:40px"></div>
+    <p class="muted small" style="max-width:42rem">Shop links are plain searches on Amazon UK. This site earns nothing from them. Verdicts are only written for items we have bought and used ourselves.</p>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" data-page>
+  <div class="wrap page">
+    <header>
+      <h2>Videos</h2>
+      <p class="lead">Short films of the kit in use, filmed at home on Anglesey.</p>
+    </header>
+    <div id="video-list"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" data-page>
+  <div class="wrap page">
+    <header>
+      <h2>About</h2>
+      <p class="lead">One household on Anglesey working out what it takes to be ready, and writing it down so others can use it.</p>
+    </header>
+    <div class="cols">
+      <div class="prose">
+        <h3>How this works</h3>
+        <p>The kit list started as our own shopping list. Each item goes into the catalogue with the reason it is there. Once we have bought it and used it, we add what we paid, where it came from, and whether it was worth it.</p>
+        <p>Everything here is free. There are no adverts and nobody sponsors the reviews. If that ever changes, it will say so on this page and beside every link it affects.</p>
+        <h3>Your information</h3>
+        <p>This website has no accounts, no cookies and no trackers. The app stores what you enter on your own phone and sends it nowhere. We cannot see it, which also means we cannot recover it, so use the app's backup button.</p>
+      </div>
+      <div class="prose">
+        <h3>Get in touch</h3>
+        <div id="contact-slot"></div>
+        <h3>Safety</h3>
+        <p>The advice here is general and written for homes in Great Britain. Gas and electrical work is for qualified engineers. In an emergency ring 999.</p>
+        <div class="sources"><a href="https://prepare.campaign.gov.uk/" target="_blank" rel="noopener">GOV.UK Prepare</a><a href="https://www.powercut105.com/" target="_blank" rel="noopener">Power Cut 105</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Anglesey Prep Kit. Free to use and share.</span>
+    <span>No accounts, no cookies, no trackers.</span>
+  </div>
+</footer>
+
+<script src="data/catalogue.js"></script>
+<script src="data/site-config.js"></script>
+<script>
+(function(){
+'use strict';
+function h(tag,props,kids){
+  var e=document.createElement(tag),k,v;
+  if(props){for(k in props){v=props[k]; if(v==null||v===false)continue;
+    if(k==='class')e.className=v; else if(k==='text')e.textContent=v;
+    else if(k.slice(0,2)==='on')e.addEventListener(k.slice(2),v);
+    else e.setAttribute(k,v===true?'':v);}}
+  (kids||[]).forEach(function(c){if(c==null||c===false)return; e.appendChild(c.nodeType?c:document.createTextNode(String(c)));});
+  return e;
+}
+function $(id){return document.getElementById(id);}
+var KIT=window.KIT||{sections:[],items:[]}, SITE=window.SITE||{};
+
+/* ---------- Tabs ---------- */
+var pages=Array.prototype.slice.call(document.querySelectorAll('[data-page]'));
+var links=Array.prototype.slice.call(document.querySelectorAll('.nav a'));
+function show(){
+  var id=(location.hash||'#home').slice(1);
+  if(!$(id)||!$(id).hasAttribute('data-page')) id='home';
+  pages.forEach(function(p){p.hidden=p.id!==id;});
+  links.forEach(function(a){if(a.dataset.tab===id)a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');});
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange',show);
+show();
+
+/* ---------- Scenario picker ---------- */
+var SCENES=[
+  {id:'power',pick:'The power is off',steps:[
+    'Check your fuse box. If a switch has tripped, the fault is in your house and it is not a power cut.',
+    'Ring 105. It is free, and tells you what is wrong and how long it may last.',
+    'Switch off the cooker, heaters and irons so they do not come back on unattended. Leave one light on.'],
+   kit:'head torches, a wind-up radio and charged power banks'},
+  {id:'water',pick:'The taps are dry',steps:[
+    'Check your stopcock is open, then ask a neighbour whether theirs is off too.',
+    'Look at your water company’s website or ring them. They will say when it is back and where bottled water is being handed out.',
+    'Drink stored water first, 3 litres each a day. Flush the toilet with rainwater or washing-up water.'],
+   kit:'water containers, purification tablets and a collapsible carrier'},
+  {id:'storm',pick:'A storm is coming',steps:[
+    'Charge phones, power banks and torches now, and fill the flasks with hot water.',
+    'Bring in or tie down anything loose outside. Park away from trees.',
+    'Check the flood warnings for your address and put the grab bag by the door.'],
+   kit:'power banks, a tarpaulin and rope, and the grab bag'},
+  {id:'cold',pick:'The heating has failed',steps:[
+    'Check the boiler has power and pressure, then press reset once.',
+    'Move everyone into one room, shut the doors and put on layers.',
+    'Fill hot water bottles. Never bring a barbecue or camping stove indoors for heat.'],
+   kit:'sleeping bags, hot water bottles and a carbon monoxide alarm'}
+];
+function setScene(sc,animate){
+  $('lamp-title').textContent=sc.pick;
+  var ol=$('lamp-steps'); ol.textContent='';
+  sc.steps.forEach(function(s){ol.appendChild(h('li',{text:s}));});
+  var from=$('lamp-from'); from.textContent='From the kit: '+sc.kit+'. ';
+  from.appendChild(h('a',{href:'#catalogue',text:'See them in the catalogue'}));
+  Array.prototype.forEach.call($('picks').children,function(b){b.setAttribute('aria-pressed',String(b.dataset.id===sc.id));});
+  if(animate){var l=$('lamp'); l.classList.remove('kindle'); void l.offsetWidth; l.classList.add('kindle');}
+}
+SCENES.forEach(function(sc){
+  $('picks').appendChild(h('button',{type:'button',class:'pick','data-id':sc.id,text:sc.pick,onclick:function(){setScene(sc,true);}}));
+});
+setScene(SCENES[0],false);
+
+/* ---------- Catalogue ---------- */
+var PRI={1:'Essential',2:'Useful',3:'Optional'};
+var state={q:'',sec:'',pri:0};
+function money(n){return '£'+Number(n).toLocaleString('en-GB',{minimumFractionDigits:Number(n)%1?2:0,maximumFractionDigits:2});}
+function shopLink(it){
+  if(it.link&&it.link.href) return h('a',{href:it.link.href,target:'_blank',rel:'noopener',text:it.link.label||'Find it'});
+  if(it.search) return h('a',{href:'https://www.amazon.co.uk/s?k='+encodeURIComponent(it.search),target:'_blank',rel:'noopener',text:'Search Amazon UK'});
+  return null;
+}
+function videoId(v){return typeof v==='string'&&/^[A-Za-z0-9_-]{6,20}$/.test(v)?v:'';}
+function tested(it){return !!(it.verdict||it.bought||typeof it.paid==='number');}
+function renderCat(){
+  var root=$('cat-list'); root.textContent='';
+  var q=state.q.trim().toLowerCase(), shown=0;
+  KIT.sections.forEach(function(sec){
+    if(state.sec&&state.sec!==sec.id) return;
+    var items=KIT.items.filter(function(it){
+      if(it.sec!==sec.id) return false;
+      if(state.pri&&it.pri!==state.pri) return false;
+      if(q&&(it.name+' '+(it.why||'')+' '+(it.verdict||'')).toLowerCase().indexOf(q)<0) return false;
+      return true;
+    }).sort(function(a,b){return a.pri-b.pri;});
+    if(!items.length) return;
+    shown+=items.length;
+    var box=h('div',{class:'cat-sec'},[h('h3',null,[sec.name,h('span',{text:items.length+(items.length===1?' item':' items')})])]);
+    items.forEach(function(it){
+      var links=[shopLink(it)];
+      if(videoId(it.video)) links.push(h('a',{href:'https://www.youtube.com/watch?v='+it.video,target:'_blank',rel:'noopener',text:'Watch it in use'}));
+      var review;
+      if(tested(it)){
+        var facts=[];
+        if(typeof it.paid==='number') facts.push(h('span',{text:'Paid '+money(it.paid)}));
+        if(it.bought) facts.push(h('span',{text:it.bought}));
+        if(it.rating>=1&&it.rating<=5) facts.push(h('span',{text:'Rated '+it.rating+' out of 5'}));
+        review=h('div',{class:'review'},[facts.length?h('div',{class:'facts'},facts):null,it.verdict?h('p',{text:it.verdict}):null]);
+      } else review=null;
+      box.appendChild(h('div',{class:'item'+(review?'':' item-plain'),id:'item-'+it.id},[
+        h('div',null,[
+          h('p',{class:'item-name'},[h('span',{class:'chip chip-'+it.pri,text:PRI[it.pri]||''}),it.name,it.qty?h('span',{class:'qty',text:it.qty}):null]),
+          it.why?h('p',{class:'muted',text:it.why}):null,
+          h('div',{class:'item-links'},links.filter(Boolean))
+        ]),
+        review
+      ]));
+    });
+    root.appendChild(box);
+  });
+  if(!shown) root.appendChild(h('p',{class:'empty',text:'Nothing in the kit matches that. Clear the search or choose All.'}));
+}
+(function initCat(){
+  KIT.sections.forEach(function(s){$('cat-sec').appendChild(h('option',{value:s.id,text:s.name}));});
+  var n=KIT.items.length, ess=KIT.items.filter(function(i){return i.pri===1;}).length;
+  var done=KIT.items.filter(tested), spent=done.reduce(function(t,i){return t+(typeof i.paid==='number'?i.paid:0);},0);
+  $('cat-lead').textContent=n+' items, '+ess+' of them essential. '+(done.length
+    ?done.length+' bought and tested so far'+(spent?', costing '+money(spent)+' in all.':'.')
+    :'Prices and verdicts are added as each one is bought and used; none are in yet.');
+  $('cat-q').addEventListener('input',function(){state.q=this.value; renderCat();});
+  $('cat-sec').addEventListener('change',function(){state.sec=this.value; renderCat();});
+  Array.prototype.forEach.call($('cat-pri').children,function(b){
+    b.addEventListener('click',function(){
+      state.pri=Number(b.dataset.pri);
+      Array.prototype.forEach.call($('cat-pri').children,function(x){x.setAttribute('aria-pressed',String(x===b));});
+      renderCat();
+    });
+  });
+  renderCat();
+})();
+
+/* ---------- Videos and contact ---------- */
+(function(){
+  var root=$('video-list'), vids=(Array.isArray(SITE.videos)?SITE.videos:[]).filter(function(v){return v&&videoId(v.id);});
+  var chan=typeof SITE.youtube==='string'&&/^https:\/\/(www\.)?youtube\.com\//.test(SITE.youtube)?SITE.youtube:'';
+  if(vids.length){
+    var grid=h('div',{class:'videos'});
+    vids.forEach(function(v){
+      grid.appendChild(h('div',{class:'video'},[
+        h('div',{class:'frame'},[h('iframe',{src:'https://www.youtube-nocookie.com/embed/'+v.id,title:v.title||'Video',loading:'lazy',allowfullscreen:true,
+          allow:'accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share',referrerpolicy:'strict-origin-when-cross-origin'})]),
+        h('h3',{text:v.title||'Untitled'})
+      ]));
+    });
+    root.appendChild(grid);
+  } else {
+    root.appendChild(h('p',{class:'empty',text:'The first videos are being filmed. Each one will show a piece of kit from the catalogue in use, and will be linked from its catalogue entry.'}));
+  }
+  if(chan) root.appendChild(h('p',{style:'margin-top:24px'},[h('a',{class:'btn btn-line',href:chan,target:'_blank',rel:'noopener',text:'Open the YouTube channel'})]));
+
+  var slot=$('contact-slot'), email=typeof SITE.email==='string'&&/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(SITE.email)?SITE.email:'';
+  if(email){
+    slot.appendChild(h('p',{class:'contact',text:email}));
+    slot.appendChild(h('p',{class:'muted small'},[h('a',{href:'mailto:'+email,text:'Write an email'}),'. Corrections and suggestions for the kit are welcome.']));
+  } else slot.appendChild(h('p',{class:'muted',text:'A contact address is being set up and will appear here.'}));
+})();
+})();
+</script>
+</body>
+</html>
